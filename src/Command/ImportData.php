@@ -4,7 +4,6 @@ namespace App\Command;
 
 use App\Service\DataImporter;
 use DirectoryIterator;
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,7 +22,14 @@ class ImportData extends Command
         $this->dataImporter = $dataImporter;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function configure(): void
+    {
+        $this
+            ->setName('COVID-19 data import')
+            ->setDescription('Imports Johns Hopkins COVID-19 data');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $directory = new DirectoryIterator(self::DATA_DIR);
         foreach ($directory as $file) {
