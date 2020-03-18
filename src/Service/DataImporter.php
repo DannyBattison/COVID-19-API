@@ -33,7 +33,7 @@ class DataImporter
         $this->statisticRepository = $statisticRepository;
         $this->importLogRepository = $importLogRepository;
     }
-    public function importFile(string $path)
+    public function importFile(string $path): void
     {
         if ($this->importLogRepository->findOneBy(['name' => basename($path)])) {
             return;
