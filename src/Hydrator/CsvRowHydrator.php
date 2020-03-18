@@ -35,6 +35,8 @@ class CsvRowHydrator
                         case 'float':
                             $value = (float) $value;
                             break;
+                        default:
+                            $value = trim($value);
                     }
                 }
                 $row->{self::$setterMap[$key]['setter']}($value);
