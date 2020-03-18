@@ -25,10 +25,10 @@ class Region
     /** @ORM\Column(type="string") */
     protected string $name;
 
-    /** @ORM\Column(type="integer", nullable=true) */
+    /** @ORM\Column(type="float", nullable=true) */
     protected ?float $latitude;
 
-    /** @ORM\Column(type="integer", nullable=true) */
+    /** @ORM\Column(type="float", nullable=true) */
     protected ?float $longitude;
 
     /** @ORM\OneToMany(targetEntity="Statistic", mappedBy="region") */

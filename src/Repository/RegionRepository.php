@@ -23,7 +23,7 @@ class RegionRepository extends ServiceEntityRepository
     public function findOrCreate(Country $country, string $name, ?float $latitude, ?float $longitude): Region
     {
         $region = $this->findOneBy([
-            'country' => $name,
+            'country' => $country,
             'name' => $name,
         ]);
 
@@ -31,12 +31,12 @@ class RegionRepository extends ServiceEntityRepository
             $region = new Region();
             $region->setCountry($country);
             $region->setName($name);
+            $this->getEntityManager()->persist($region);
         }
 
         $region->setLatitude($latitude);
         $region->setLongitude($longitude);
 
-        $this->getEntityManager()->persist($region);
         $this->getEntityManager()->flush($region);
 
         return $region;
