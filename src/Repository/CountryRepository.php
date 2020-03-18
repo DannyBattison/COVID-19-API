@@ -22,13 +22,14 @@ class CountryRepository extends ServiceEntityRepository
 
     public function findOrCreate(string $name): Country
     {
-        $country = $this->findBy(['name' => $name]);
+        $country = $this->findOneBy(['name' => $name]);
 
         if (!$country) {
             $country = new Country();
             $country->setName($name);
 
             $this->getEntityManager()->persist($country);
+            $this->getEntityManager()->flush($country);
         }
 
         return $country;

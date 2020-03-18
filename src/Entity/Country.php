@@ -26,7 +26,7 @@ class Country
      * @var Region[]
      * @ORM\OneToMany(targetEntity="Region", mappedBy="country")
      */
-    protected ArrayCollection $regions;
+    protected Collection $regions;
 
     public function __construct()
     {
@@ -53,7 +53,7 @@ class Country
         $this->name = $name;
     }
 
-    public function getRegions(): ArrayCollection
+    public function getRegions(): Collection
     {
         return $this->regions;
     }

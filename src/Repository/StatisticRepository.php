@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Region;
 use App\Entity\Statistic;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -20,13 +21,17 @@ class StatisticRepository extends ServiceEntityRepository
         parent::__construct($registry, Statistic::class);
     }
 
-    public function create(Region $region, int $confirmed, int $deaths, int $recovered): Statistic
+    public function create(Region $region, DateTime $dateTime, int $confirmed, int $deaths, int $recovered): Statistic
     {
         $statistic = new Statistic();
         $statistic->setRegion($region);
+        $statistic->setDatetime($dateTime);
         $statistic->setConfirmed($confirmed);
         $statistic->setDeaths($deaths);
         $statistic->setRecovered($recovered);
+
+        $this->getEntityManager()->persist($statistic);
+        $this->getEntityManager()->flush($statistic);
 
         return $statistic;
     }

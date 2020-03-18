@@ -20,24 +20,24 @@ class RegionRepository extends ServiceEntityRepository
         parent::__construct($registry, Region::class);
     }
 
-    public function findOrCreate(Country $country, string $name, float $latitude, float $longitude): Region
+    public function findOrCreate(Country $country, string $name, ?float $latitude, ?float $longitude): Region
     {
-        $region = $this->findBy([
+        $region = $this->findOneBy([
             'country' => $name,
             'name' => $name,
-            'latitude' => $latitude,
-            'longitude' => $longitude
         ]);
 
         if (!$region) {
             $region = new Region();
             $region->setCountry($country);
             $region->setName($name);
-            $region->setLatitude($latitude);
-            $region->setLongitude($longitude);
-
-            $this->getEntityManager()->persist($region);
         }
+
+        $region->setLatitude($latitude);
+        $region->setLongitude($longitude);
+
+        $this->getEntityManager()->persist($region);
+        $this->getEntityManager()->flush($region);
 
         return $region;
     }

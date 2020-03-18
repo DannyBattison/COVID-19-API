@@ -25,14 +25,14 @@ class Region
     /** @ORM\Column(type="string") */
     protected string $name;
 
-    /** @ORM\Column(type="integer") */
-    protected float $latitude;
+    /** @ORM\Column(type="integer", nullable=true) */
+    protected ?float $latitude;
 
-    /** @ORM\Column(type="integer") */
-    protected float $longitude;
+    /** @ORM\Column(type="integer", nullable=true) */
+    protected ?float $longitude;
 
     /** @ORM\OneToMany(targetEntity="Statistic", mappedBy="region") */
-    protected ArrayCollection $statistics;
+    protected Collection $statistics;
 
     public function __construct()
     {
@@ -68,32 +68,32 @@ class Region
         $this->name = $name;
     }
 
-    public function getLatitude(): float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function setLatitude(float $latitude): void
+    public function setLatitude(?float $latitude): void
     {
         $this->latitude = $latitude;
     }
 
-    public function getLongitude(): float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setLongitude(float $longitude): void
+    public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
     }
 
-    public function getStatistics(): ArrayCollection
+    public function getStatistics(): Collection
     {
         return $this->statistics;
     }
 
-    public function setStatistics(ArrayCollection $statistics): void
+    public function setStatistics(Collection $statistics): void
     {
         $this->statistics = $statistics;
     }
