@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\RegionRepository")
  * @ORM\Table("region")
  */
 class Region
@@ -30,7 +32,12 @@ class Region
     protected float $longitude;
 
     /** @ORM\OneToMany(targetEntity="Statistic", mappedBy="region") */
-    protected array $statistics;
+    protected ArrayCollection $statistics;
+
+    public function __construct()
+    {
+        $this->statistics = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -81,13 +88,35 @@ class Region
         $this->longitude = $longitude;
     }
 
-    public function getStatistics(): array
+    public function getStatistics(): ArrayCollection
     {
         return $this->statistics;
     }
 
-    public function setStatistics(array $statistics): void
+    public function setStatistics(ArrayCollection $statistics): void
     {
         $this->statistics = $statistics;
+    }
+
+    public function addStatistic(Statistic $statistic): self
+    {
+        if (!$this->statistics->contains($statistic)) {
+            $this->statistics[] = $statistic;
+            $statistic->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatistic(Statistic $statistic): self
+    {
+        if ($this->statistics->contains($statistic)) {
+            $this->statistics->removeElement($statistic);
+            if ($statistic->getRegion() === $this) {
+                $statistic->setRegion(null);
+            }
+        }
+
+        return $this;
     }
 }
