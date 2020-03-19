@@ -11,7 +11,7 @@ use App\Repository\StatisticRepository;
 use League\Csv\Reader;
 use League\Csv\Statement;
 
-class DataImporter
+class ImportService
 {
     private CsvRowHydrator $csvRowHydrator;
     private CountryRepository $countryRepository;

@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\DataImporter;
+use App\Service\ImportService;
 use DirectoryIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,9 +14,9 @@ class ImportData extends Command
 
     protected static $defaultName = 'app:import-data';
 
-    private DataImporter $dataImporter;
+    private ImportService $dataImporter;
 
-    public function __construct(DataImporter $dataImporter)
+    public function __construct(ImportService $dataImporter)
     {
         parent::__construct();
         $this->dataImporter = $dataImporter;

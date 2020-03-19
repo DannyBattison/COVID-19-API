@@ -7,6 +7,7 @@ use App\Entity\Statistic;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @method Statistic|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,5 +35,17 @@ class StatisticRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush($statistic);
 
         return $statistic;
+    }
+
+    public function getLatestDataDate(): DateTime
+    {
+        $datetime = $this
+            ->createQueryBuilder('s')
+            ->select('MAX(s.datetime)')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return new DateTime($datetime);
     }
 }

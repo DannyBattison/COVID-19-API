@@ -3,10 +3,14 @@
 namespace App\Hydrator;
 
 use App\Dto\CsvRow;
-use DateTime;
 
-class CsvRowHydrator
+/**
+ * @method CsvRow hydrate(array $data)
+ */
+class CsvRowHydrator extends AbstractHydrator
 {
+    protected static $class = CsvRow::class;
+
     protected static $setterMap = [
         'Province/State' => ['setter' => 'setRegion'],
         'Country/Region' => ['setter' => 'setCountry'],
@@ -17,32 +21,4 @@ class CsvRowHydrator
         'Latitude' => ['setter' => 'setLatitude', 'transform' => 'float'],
         'Longitude' => ['setter' => 'setLongitude', 'transform' => 'float'],
     ];
-
-    public function hydrate(array $data): CsvRow
-    {
-        $row = new CsvRow();
-
-        foreach ($data as $key => $value) {
-            if (isset(self::$setterMap[$key])) {
-                if (isset(self::$setterMap[$key]['transform'])) {
-                    switch(self::$setterMap[$key]['transform']) {
-                        case 'date':
-                            $value = (new DateTime())->setTimestamp(strtotime($value));
-                            break;
-                        case 'int':
-                            $value = (int) $value;
-                            break;
-                        case 'float':
-                            $value = (float) $value;
-                            break;
-                        default:
-                            $value = trim($value);
-                    }
-                }
-                $row->{self::$setterMap[$key]['setter']}($value);
-            }
-        }
-
-        return $row;
-    }
 }
